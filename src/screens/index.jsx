@@ -1,5 +1,5 @@
-import {Platform, StyleSheet, View} from 'react-native';
-import React from 'react';
+import {Platform, Pressable, StyleSheet, Text, View} from 'react-native';
+import React, {useState} from 'react';
 import RnPaginator from '../components';
 
 const data = [
@@ -25,10 +25,30 @@ const data = [
   {id: Math.random().toLocaleString(), name: 'product 20'},
 ];
 
+const renderItem = item => (
+  <View style={{marginVertical: 20}} key={item.id}>
+    <Text>{item.name}</Text>
+  </View>
+);
+
+const renderPaginationControl = (text, onPress) => (
+  <Pressable style={[styles.btn]} onPress={onPress}>
+    <Text>{text}</Text>
+  </Pressable>
+);
+
 const Home = () => {
+  const [show, setShow] = useState([]);
   return (
     <View style={styles.cnt}>
-      <RnPaginator data={data} itemsPerPage={7} />
+      <View>{show.map(renderItem)}</View>
+      <RnPaginator
+        data={data}
+        itemsPerPage={6}
+        renderItem={renderItem}
+        renderPaginationControl={renderPaginationControl}
+        paginationStyle={{marginTop: 10}}
+      />
     </View>
   );
 };
@@ -40,5 +60,12 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingVertical: Platform.OS === 'ios' ? 40 : 20,
     marginHorizontal: 15,
+  },
+  btn: {
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 8,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
   },
 });

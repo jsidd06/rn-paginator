@@ -1,12 +1,21 @@
-import {Pressable, StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 import React, {useState} from 'react';
 
 const RnPaginator = props => {
+  const {
+    data,
+    itemsPerPage,
+    renderItem,
+    renderPaginationControl,
+    paginationStyle,
+    currentPageTextStyle,
+    upcomingPageTextStyle,
+    paginationRootStyle,
+  } = props;
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = props.itemsPerPage;
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const showData = props.data.slice(startIndex, endIndex);
+  const showData = data.slice(startIndex, endIndex);
 
   const totalPages = Math.ceil(props.data.length / itemsPerPage);
 
@@ -25,29 +34,17 @@ const RnPaginator = props => {
   const upcomingPage = currentPage < totalPages ? currentPage + 1 : null;
 
   return (
-    <View>
-      <View>
-        {showData.map(d => (
-          <View style={{marginVertical: 20}} key={d.id}>
-            <Text>{d.name}</Text>
-          </View>
-        ))}
-      </View>
-      <View style={[styles.pagination]}>
-        <Pressable style={[styles.btn]} onPress={handlePrev}>
-          <Text>Prev</Text>
-        </Pressable>
-        <View>
-          <Text>{currentPage}</Text>
-        </View>
+    <View style={[paginationRootStyle]}>
+      {showData.map(renderItem)}
+      <View style={[styles.pagination, paginationStyle]}>
+        {renderPaginationControl('Prev', handlePrev)}
+        <Text style={[currentPageTextStyle, styles.txt]}>{currentPage}</Text>
         {upcomingPage && (
-          <View>
-            <Text>{upcomingPage}</Text>
-          </View>
+          <Text style={[upcomingPageTextStyle, styles.upTxtStyle]}>
+            {upcomingPage}
+          </Text>
         )}
-        <Pressable style={[styles.btn]} onPress={handleNext}>
-          <Text>Next</Text>
-        </Pressable>
+        {renderPaginationControl('Next', handleNext)}
       </View>
     </View>
   );
@@ -62,11 +59,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 10,
   },
-  btn: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 8,
-    paddingHorizontal: 20,
-    paddingVertical: 10,
+  txt: {
+    color: '#000',
+  },
+  upTxtStyle: {
+    color: '#637A9F',
   },
 });
