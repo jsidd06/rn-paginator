@@ -1,39 +1,14 @@
 import {Pressable, StyleSheet, Text, View} from 'react-native';
 import React, {useState} from 'react';
 
-const data = [
-  {id: Math.random().toLocaleString(), name: 'product 1'},
-  {id: Math.random().toLocaleString(), name: 'product 2'},
-  {id: Math.random().toLocaleString(), name: 'product 3'},
-  {id: Math.random().toLocaleString(), name: 'product 4'},
-  {id: Math.random().toLocaleString(), name: 'product 5'},
-  {id: Math.random().toLocaleString(), name: 'product 6'},
-  {id: Math.random().toLocaleString(), name: 'product 7'},
-  {id: Math.random().toLocaleString(), name: 'product 8'},
-  {id: Math.random().toLocaleString(), name: 'product 9'},
-  {id: Math.random().toLocaleString(), name: 'product 10'},
-  {id: Math.random().toLocaleString(), name: 'product 11'},
-  {id: Math.random().toLocaleString(), name: 'product 12'},
-  {id: Math.random().toLocaleString(), name: 'product 13'},
-  {id: Math.random().toLocaleString(), name: 'product 14'},
-  {id: Math.random().toLocaleString(), name: 'product 15'},
-  {id: Math.random().toLocaleString(), name: 'product 16'},
-  {id: Math.random().toLocaleString(), name: 'product 17'},
-  {id: Math.random().toLocaleString(), name: 'product 18'},
-  {id: Math.random().toLocaleString(), name: 'product 19'},
-  {id: Math.random().toLocaleString(), name: 'product 20'},
-];
-
-const itemsPerPage = 6;
-
-const RnPaginator = () => {
+const RnPaginator = props => {
   const [currentPage, setCurrentPage] = useState(1);
-
+  const itemsPerPage = props.itemsPerPage;
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const showData = data.slice(startIndex, endIndex);
+  const showData = props.data.slice(startIndex, endIndex);
 
-  const totalPages = Math.ceil(data.length / itemsPerPage);
+  const totalPages = Math.ceil(props.data.length / itemsPerPage);
 
   const handlePrev = () => {
     if (currentPage > 1) {
