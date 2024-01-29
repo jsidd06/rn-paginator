@@ -47,7 +47,6 @@ const Home = () => {
         itemsPerPage={6}
         renderItem={renderItem}
         renderPaginationControl={renderPaginationControl}
-        paginationStyle={{marginTop: 10}}
       />
     </View>
   );
